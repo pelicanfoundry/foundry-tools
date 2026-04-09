@@ -1,0 +1,32 @@
+meta {
+  name: Query Vendor Credits
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/query
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+headers {
+  Accept: application/json
+}
+
+params:query {
+  query: SELECT+*+FROM+VendorCredit+WHERE+TxnDate+>=+'{{since_date}}'+MAXRESULTS+1000
+}
+
+docs {
+  Fetch vendor credit memos since since_date.
+  Syncs: Id, TxnDate, TotalAmt, VendorRef, DocNumber, PrivateNote.
+
+  Used by: syncVendorCredits() in sync.go
+  TxType in Foundry: "vendorcredit"
+  PaymentMethod in Foundry: "vendor_credit"
+}

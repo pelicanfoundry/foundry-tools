@@ -1,0 +1,68 @@
+meta {
+  name: Train Model
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:8090/train
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "outcomes": [
+      {
+        "features": {
+          "alert": {"id": 1, "rule_code": "SPLIT_PAYMENT", "severity": "low", "description": "test", "created_at": "2026-01-01T00:00:00Z"},
+          "transaction": {"amount_cents": 50000, "date": "2026-01-01", "payment_method": "ach", "invoice_number": "", "memo": ""},
+          "vendor": {"name": "V1", "first_seen": "2024-01-01", "has_ein": true, "tx_count_30d": 5, "tx_count_90d": 15, "tx_amount_mean_cents": 45000, "tx_amount_stddev_cents": 10000, "tx_amount_max_cents": 80000, "unique_payment_methods": 1},
+          "rule_stats": {"fire_count_vendor_30d": 1, "fire_count_all_30d": 5, "dismiss_rate_30d": 0.8, "escalate_rate_30d": 0.05},
+          "network_signal_count": 0,
+          "outcomes": []
+        },
+        "label": "dismissed"
+      },
+      {
+        "features": {
+          "alert": {"id": 2, "rule_code": "LARGE_PAYMENT", "severity": "high", "description": "test", "created_at": "2026-02-01T00:00:00Z"},
+          "transaction": {"amount_cents": 1500000, "date": "2026-02-01", "payment_method": "check", "invoice_number": "", "memo": ""},
+          "vendor": {"name": "V2", "first_seen": "2025-06-01", "has_ein": true, "tx_count_30d": 3, "tx_count_90d": 10, "tx_amount_mean_cents": 800000, "tx_amount_stddev_cents": 300000, "tx_amount_max_cents": 1500000, "unique_payment_methods": 2},
+          "rule_stats": {"fire_count_vendor_30d": 2, "fire_count_all_30d": 10, "dismiss_rate_30d": 0.4, "escalate_rate_30d": 0.2},
+          "network_signal_count": 1,
+          "outcomes": []
+        },
+        "label": "investigating"
+      },
+      {
+        "features": {
+          "alert": {"id": 3, "rule_code": "NEW_VENDOR_LARGE", "severity": "critical", "description": "test", "created_at": "2026-03-01T00:00:00Z"},
+          "transaction": {"amount_cents": 2500000, "date": "2026-03-01", "payment_method": "wire", "invoice_number": "", "memo": ""},
+          "vendor": {"name": "V3", "first_seen": "2026-02-20", "has_ein": false, "tx_count_30d": 1, "tx_count_90d": 1, "tx_amount_mean_cents": 2500000, "tx_amount_stddev_cents": 0, "tx_amount_max_cents": 2500000, "unique_payment_methods": 1},
+          "rule_stats": {"fire_count_vendor_30d": 1, "fire_count_all_30d": 2, "dismiss_rate_30d": 0.1, "escalate_rate_30d": 0.5},
+          "network_signal_count": 0,
+          "outcomes": []
+        },
+        "label": "resolved"
+      }
+    ]
+  }
+}
+
+docs {
+  Train the model with labeled outcomes. This is a minimal example with 3 samples
+  (one per class). In production, you need 30+ samples for the model to activate.
+
+  With < 30 samples, the model trains but /triage still uses the heuristic scorer.
+  The /health endpoint will show model_loaded: false until 30+ samples are trained.
+
+  Labels map to classes:
+  - "dismissed" / "false_positive" -> dismiss
+  - "investigating" -> investigate
+  - "resolved" / "escalated" -> escalate
+}

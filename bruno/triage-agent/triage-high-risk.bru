@@ -1,0 +1,66 @@
+meta {
+  name: Triage - High Risk Alert
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8090/triage
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "alert": {
+      "id": 1,
+      "rule_code": "SPLIT_PAYMENT",
+      "severity": "high",
+      "description": "Multiple payments to ABC Electric totaling $45,000 in 7 days — possible split to avoid approval threshold",
+      "created_at": "2026-04-07T10:30:00Z"
+    },
+    "transaction": {
+      "amount_cents": 1500000,
+      "date": "2026-04-06",
+      "payment_method": "check",
+      "invoice_number": "INV-2345",
+      "memo": "Phase 2 electrical"
+    },
+    "vendor": {
+      "name": "ABC Electric",
+      "first_seen": "2025-11-01",
+      "has_ein": true,
+      "tx_count_30d": 8,
+      "tx_count_90d": 22,
+      "tx_amount_mean_cents": 1200000,
+      "tx_amount_stddev_cents": 350000,
+      "tx_amount_max_cents": 2500000,
+      "unique_payment_methods": 2
+    },
+    "rule_stats": {
+      "fire_count_vendor_30d": 3,
+      "fire_count_all_30d": 15,
+      "dismiss_rate_30d": 0.60,
+      "escalate_rate_30d": 0.10
+    },
+    "network_signal_count": 2,
+    "outcomes": [
+      {
+        "alert_id": 98,
+        "rule_code": "SPLIT_PAYMENT",
+        "recommendation": "investigate",
+        "final_status": "dismissed",
+        "resolved_at": "2026-03-20T14:00:00Z"
+      }
+    ]
+  }
+}
+
+docs {
+  Score a high-risk alert: $15k payment, high severity, new-ish vendor, network signals present.
+  Expected: "investigate" or "escalate" with model_type "heuristic" (until model is trained).
+}

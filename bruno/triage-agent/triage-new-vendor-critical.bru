@@ -1,0 +1,59 @@
+meta {
+  name: Triage - New Vendor Critical
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8090/triage
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "alert": {
+      "id": 3,
+      "rule_code": "NEW_VENDOR_LARGE_PAYMENT",
+      "severity": "critical",
+      "description": "First-time vendor received $25,000 payment within 14 days of creation",
+      "created_at": "2026-04-07T14:00:00Z"
+    },
+    "transaction": {
+      "amount_cents": 2500000,
+      "date": "2026-04-07",
+      "payment_method": "wire",
+      "invoice_number": "",
+      "memo": "Emergency repair"
+    },
+    "vendor": {
+      "name": "QuickFix Solutions LLC",
+      "first_seen": "2026-03-25",
+      "has_ein": false,
+      "tx_count_30d": 1,
+      "tx_count_90d": 1,
+      "tx_amount_mean_cents": 2500000,
+      "tx_amount_stddev_cents": 0,
+      "tx_amount_max_cents": 2500000,
+      "unique_payment_methods": 1
+    },
+    "rule_stats": {
+      "fire_count_vendor_30d": 1,
+      "fire_count_all_30d": 3,
+      "dismiss_rate_30d": 0.20,
+      "escalate_rate_30d": 0.40
+    },
+    "network_signal_count": 0,
+    "outcomes": []
+  }
+}
+
+docs {
+  Score the worst case: brand new vendor (13 days old), no EIN, $25k wire, critical severity,
+  no invoice number, no prior outcomes. Classic embezzlement red flags.
+  Expected: "escalate" with model_type "heuristic".
+}

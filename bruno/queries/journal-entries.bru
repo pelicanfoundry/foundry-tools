@@ -1,0 +1,39 @@
+meta {
+  name: Query Journal Entries
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/query
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+headers {
+  Accept: application/json
+}
+
+params:query {
+  query: SELECT+*+FROM+JournalEntry+WHERE+TxnDate+>=+'{{since_date}}'+MAXRESULTS+1000
+}
+
+docs {
+  Fetch journal entries since since_date. Foundry only syncs debit lines
+  where JournalEntryLineDetail.Entity.Type = "Vendor".
+
+  Syncs: Id, TxnDate, DocNumber, PrivateNote, TotalAmt, Adjustment,
+  Line[].Amount, Line[].JournalEntryLineDetail.PostingType,
+  Line[].JournalEntryLineDetail.Entity.EntityRef.
+
+  Adjustment=true → sets is_adjustment on the transaction.
+  JEs that bypass normal AP workflow are high-risk (ADJUSTMENT_JE rule).
+
+  Used by: syncJournalEntries() in sync.go
+  TxType in Foundry: "journalentry"
+  PaymentMethod in Foundry: "journal_entry"
+}

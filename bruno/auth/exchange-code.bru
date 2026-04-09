@@ -1,0 +1,31 @@
+meta {
+  name: Exchange Auth Code
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{token_url}}
+  body: formUrlEncoded
+  auth: basic
+}
+
+auth:basic {
+  username: {{client_id}}
+  password: {{client_secret}}
+}
+
+body:form-urlencoded {
+  grant_type: authorization_code
+  code: {{auth_code}}
+  redirect_uri: {{redirect_uri}}
+}
+
+docs {
+  Exchange the authorization code received from the OAuth callback for
+  access_token + refresh_token. Run this once after the user approves
+  the connection in QBO.
+
+  access_token expires in 3600s.
+  refresh_token expires in 100 days.
+}

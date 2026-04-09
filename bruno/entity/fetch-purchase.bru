@@ -1,0 +1,28 @@
+meta {
+  name: Fetch Purchase by ID
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/purchase/{{purchase_id}}?purchase_id=1
+  body: none
+  auth: bearer
+}
+
+params:query {
+  purchase_id: 1
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  Fetch a single purchase by QBO entity ID.
+  Used by webhook handler for purchase create/update events.
+}

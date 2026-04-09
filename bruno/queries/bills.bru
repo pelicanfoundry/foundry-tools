@@ -1,0 +1,33 @@
+meta {
+  name: Query Bills
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/query?query=SELECT+*+FROM+Bill+WHERE+TxnDate+>=+'{{since_date}}'+MAXRESULTS+1000
+  body: none
+  auth: bearer
+}
+
+params:query {
+  query: SELECT+*+FROM+Bill+WHERE+TxnDate+>=+'{{since_date}}'+MAXRESULTS+1000
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  Fetch vendor bills since since_date. Foundry syncs:
+  Id, TxnDate, TotalAmt, VendorRef, DocNumber, PrivateNote,
+  LinkedTxn (checks for PurchaseOrder link → sets po_number),
+  AttachableRef (presence → has_attachment).
+  
+  Used by: syncBills() in sync.go
+  TxType in Foundry: "bill"
+}

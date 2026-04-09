@@ -1,0 +1,32 @@
+meta {
+  name: Query Purchase Orders
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/query
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+headers {
+  Accept: application/json
+}
+
+params:query {
+  query: SELECT+*+FROM+PurchaseOrder+WHERE+TxnDate+>=+'{{since_date}}'+MAXRESULTS+1000
+}
+
+docs {
+  Fetch purchase orders since since_date.
+  Syncs: Id, TxnDate, DueDate, TotalAmt, VendorRef, DocNumber, POStatus.
+
+  Used by: syncPurchaseOrders() in sync.go
+  Bills with LinkedTxn.TxnType = "PurchaseOrder" set po_number on the
+  transaction, enabling the BILL_NO_PO fraud rule.
+}

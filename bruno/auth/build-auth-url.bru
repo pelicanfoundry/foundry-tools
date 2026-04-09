@@ -1,0 +1,28 @@
+meta {
+  name: Build Auth URL (reference)
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{auth_url}}
+  body: none
+  auth: none
+}
+
+params:query {
+  client_id: {{client_id}}
+  response_type: code
+  scope: com.intuit.quickbooks.accounting
+  redirect_uri: {{redirect_uri}}
+  state: foundry-oauth-state
+}
+
+docs {
+  This is a reference request — do not execute it directly.
+  Open the URL in a browser to start the OAuth flow.
+  QBO will redirect to redirect_uri with ?code=...&realmId=...
+
+  In Foundry, AuthURL() in client.go builds this URL.
+  The /integrations/qbo/connect handler redirects the user here.
+}

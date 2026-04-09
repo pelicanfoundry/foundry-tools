@@ -1,0 +1,29 @@
+meta {
+  name: Query Bill by ID
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/query?query=SELECT+*+FROM+Bill+WHERE+Id+=+'148'
+  body: none
+  auth: bearer
+}
+
+params:query {
+  query: SELECT+*+FROM+Bill+WHERE+Id+=+'148'
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  Query a single bill by ID. Change the ID in the query param.
+  Returns full bill detail including Line items, VendorRef,
+  DueDate, LinkedTxn (POs), AttachableRef, and MetaData.
+}

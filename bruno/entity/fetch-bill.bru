@@ -1,0 +1,28 @@
+meta {
+  name: Fetch Bill by ID
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/bill/148
+  body: none
+  auth: bearer
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  Fetch a single bill by QBO entity ID.
+  Used by webhook handler in handler/quickbooks.go when QBO pushes
+  a bill create/update event.
+  
+  Note: MetaData in this response does NOT include CreatedByRef —
+  use the AuditActivity report to get user attribution.
+}

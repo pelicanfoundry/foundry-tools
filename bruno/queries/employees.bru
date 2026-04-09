@@ -1,0 +1,35 @@
+meta {
+  name: Query Employees
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/query?query=SELECT+*+FROM+Employee+MAXRESULTS+1000
+  body: none
+  auth: bearer
+}
+
+params:query {
+  query: SELECT+*+FROM+Employee+MAXRESULTS+1000
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  Fetch all employees (active and inactive). Foundry syncs:
+  Id, DisplayName, GivenName, FamilyName, EmployeeNumber, HiredDate,
+  ReleasedDate, Active, PrimaryAddr, PrimaryEmailAddr.
+  
+  Key fraud use: match vendor email against employee email to detect
+  ghost employee payments. Inactive employees with ReleasedDate set
+  are terminated — payments to them are high risk.
+  
+  Used by: syncEmployees() in sync.go
+}

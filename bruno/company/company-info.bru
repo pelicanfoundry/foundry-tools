@@ -1,0 +1,24 @@
+meta {
+  name: Company Info
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/companyinfo/{{realm_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+headers {
+  Accept: application/json
+}
+
+docs {
+  Fetch company name and metadata for the connected QBO account.
+  Used by Foundry's GetCompanyInfo() to verify the connection.
+}

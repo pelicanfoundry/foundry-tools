@@ -1,0 +1,34 @@
+meta {
+  name: Query Purchases
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/query
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+headers {
+  Accept: application/json
+}
+
+params:query {
+  query: SELECT+*+FROM+Purchase+WHERE+TxnDate+>=+'{{since_date}}'+MAXRESULTS+1000
+}
+
+docs {
+  Fetch purchases (direct spend via bank account or credit card) since since_date.
+  Foundry only syncs purchases where EntityRef.Type = "Vendor".
+
+  Syncs: Id, TxnDate, TotalAmt, PaymentType (Cash=bank | CreditCard),
+  PaymentMethodRef.Name (Check/ACH/Wire), Memo, DocNumber, EntityRef.
+
+  Used by: syncPurchases() in sync.go
+  TxType in Foundry: "purchase"
+}

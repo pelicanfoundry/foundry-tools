@@ -1,0 +1,30 @@
+meta {
+  name: Report - Profit and Loss
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/reports/ProfitAndLoss
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+headers {
+  Accept: application/json
+}
+
+params:query {
+  start_date: {{since_date}}
+  end_date: 2026-12-31
+  accounting_method: Accrual
+}
+
+docs {
+  Standard P&L report. Useful for cross-referencing vendor spend
+  totals against what appears in Foundry's transaction data.
+}

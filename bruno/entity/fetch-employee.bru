@@ -1,0 +1,29 @@
+meta {
+  name: Fetch Employee by ID
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/employee/{{employee_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+headers {
+  Accept: application/json
+}
+
+params:query {
+  employee_id: 1
+}
+
+docs {
+  Fetch a single employee by QBO entity ID.
+  Key fields to inspect: PrimaryEmailAddr.Address (used for ghost
+  employee matching), Active, ReleasedDate (terminated employees).
+}

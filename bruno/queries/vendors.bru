@@ -1,0 +1,34 @@
+meta {
+  name: Query Vendors
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/query?query=SELECT+*+FROM+Vendor+WHERE+Active+=+true+MAXRESULTS+1000
+  body: none
+  auth: bearer
+}
+
+params:query {
+  query: SELECT+*+FROM+Vendor+WHERE+Active+=+true+MAXRESULTS+1000
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  Fetch all active vendors. Foundry syncs: Id, DisplayName, CompanyName,
+  TaxIdentifier, Vendor1099, Active, BillAddr, PrimaryEmailAddr, WebAddr,
+  MetaData.CreateTime.
+  
+  Note: MetaData.CreatedByRef is NOT returned by the sandbox or production
+  API in practice — qbo_created_by will be empty.
+  
+  Used by: syncVendors() in sync.go
+}

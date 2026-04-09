@@ -1,0 +1,29 @@
+meta {
+  name: Fetch Journal Entry by ID
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/journalentry/{{je_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+headers {
+  Accept: application/json
+}
+
+params:query {
+  je_id: 1
+}
+
+docs {
+  Fetch a single journal entry by QBO entity ID.
+  Check Adjustment field — true means this bypasses normal AP workflow,
+  which triggers the ADJUSTMENT_JE fraud rule in Foundry.
+}

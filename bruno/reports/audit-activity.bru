@@ -1,0 +1,45 @@
+meta {
+  name: Report - Audit Activity
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/reports/AuditActivity?start_date=2026-03-01&end_date=2026-12-31
+  body: none
+  auth: bearer
+}
+
+params:query {
+  start_date: 2026-03-01
+  end_date: 2026-12-31
+  : 
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  Fetch the QBO audit log for a date range.
+  Returns who created/modified each entity, their email, entity type,
+  entity ID, and timestamp — the data source for qbo_created_by.
+  
+  Response format: columnar report (Header/Columns/Rows) not entity JSON.
+  Columns typically include: Date, UserName, EventType, EntityType,
+  EntityId, EntityName.
+  
+  This is the primary way to get user identity on transactions/vendors,
+  since MetaData.CreatedByRef is not returned in practice by the query API.
+  
+  Use this to investigate the SELF_APPROVAL_LOOP graph detection —
+  match UserName/email against employees table to find terminated users
+  still active in QBO.
+  
+  NOTE: Requires com.intuit.quickbooks.accounting scope. Available on
+  all QBO plans but may require admin-level QBO access to view.
+}

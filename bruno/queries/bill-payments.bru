@@ -1,0 +1,33 @@
+meta {
+  name: Query Bill Payments
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/query
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+headers {
+  Accept: application/json
+}
+
+params:query {
+  query: SELECT+*+FROM+BillPayment+WHERE+TxnDate+>=+'{{since_date}}'+MAXRESULTS+1000
+}
+
+docs {
+  Fetch bill payments since since_date. Foundry syncs:
+  Id, TxnDate, TotalAmt, PayType (Check/CreditCard), VendorRef,
+  DocNumber, PrivateNote, Line[].LinkedTxn (to find the backing Bill).
+
+  Used by: syncBillPayments() in sync.go
+  TxType in Foundry: "billpayment"
+  LinkedExternalID: "qbo-bill-{billId}"
+}

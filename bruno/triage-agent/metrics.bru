@@ -1,0 +1,15 @@
+meta {
+  name: Model Metrics
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:8090/metrics
+  body: none
+  auth: none
+}
+
+docs {
+  Get model performance stats: accuracy, sample count, top features, last trained timestamp.
+}

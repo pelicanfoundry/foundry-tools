@@ -1,0 +1,29 @@
+meta {
+  name: Refresh Token
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{token_url}}
+  body: formUrlEncoded
+  auth: basic
+}
+
+auth:basic {
+  username: {{client_id}}
+  password: {{client_secret}}
+}
+
+body:form-urlencoded {
+  grant_type: refresh_token
+  refresh_token: {{refresh_token}}
+}
+
+docs {
+  Refresh the access token using the refresh token.
+  Returns a new access_token (and new refresh_token — rotate it).
+
+  Foundry stores both tokens encrypted in the qbo_connections table.
+  RefreshToken() in client.go calls this endpoint.
+}

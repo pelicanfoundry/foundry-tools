@@ -1,0 +1,28 @@
+meta {
+  name: Fetch Vendor by ID
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/vendor/{{vendor_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+headers {
+  Accept: application/json
+}
+
+params:query {
+  vendor_id: 46
+}
+
+docs {
+  Fetch a single vendor by QBO entity ID (the Id field, not external_id).
+  Used by FetchEntity() in client.go for webhook-triggered updates.
+}

@@ -1,0 +1,21 @@
+meta {
+  name: test
+  type: http
+  seq: 6
+}
+
+get {
+  url: https://sandbox-quickbooks.api.intuit.com/v3/company/9341456594594180/companyinfo/9341456594594180
+  body: none
+  auth: inherit
+}
+
+headers {
+  accept: application/json
+  authorization: Bearer
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}

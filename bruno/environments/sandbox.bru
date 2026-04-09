@@ -1,0 +1,15 @@
+vars {
+  base_url: https://sandbox-quickbooks.api.intuit.com/v3/company
+  auth_url: https://appcenter.intuit.com/connect/oauth2
+  token_url: https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer
+  realm_id: 9341456594594180
+  redirect_uri: http://localhost:8080/integrations/qbo/callback
+  since_date: 2024-01-01
+}
+vars:secret [
+  client_id,
+  client_secret,
+  access_token,
+  refresh_token,
+  auth_code
+]

@@ -1,0 +1,32 @@
+meta {
+  name: Query Bills by Vendor
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/query?query=SELECT+*+FROM+Bill+WHERE+VendorRef+=+'58'
+  body: none
+  auth: bearer
+}
+
+params:query {
+  query: SELECT+*+FROM+Bill+WHERE+VendorRef+=+'58'
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  Query all bills for a specific vendor. Change '40' to the vendor's QBO Id.
+  
+  Workflow:
+  1. Run queries/vendors to find vendor Id
+  2. Run this query with that Id
+  3. Run entity/fetch-bill with a specific bill Id from the results
+}

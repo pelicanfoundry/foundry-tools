@@ -1,0 +1,21 @@
+meta {
+  name: Health Check
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8090/health
+  body: none
+  auth: none
+}
+
+docs {
+  Check if the triage sidecar is running and whether a trained model is loaded.
+
+  Returns:
+  - status: "ok"
+  - model_loaded: true/false
+  - model_type: "heuristic" or "trained"
+  - samples: number of training samples
+}

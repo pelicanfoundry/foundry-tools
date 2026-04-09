@@ -1,0 +1,73 @@
+meta {
+  name: Triage - Low Risk Alert
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8090/triage
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "alert": {
+      "id": 2,
+      "rule_code": "ROUND_AMOUNT",
+      "severity": "low",
+      "description": "Round dollar amount payment of $500",
+      "created_at": "2026-04-07T09:00:00Z"
+    },
+    "transaction": {
+      "amount_cents": 50000,
+      "date": "2026-04-05",
+      "payment_method": "ach",
+      "invoice_number": "INV-100",
+      "memo": "Monthly service"
+    },
+    "vendor": {
+      "name": "Reliable Plumbing",
+      "first_seen": "2024-06-15",
+      "has_ein": true,
+      "tx_count_30d": 2,
+      "tx_count_90d": 6,
+      "tx_amount_mean_cents": 45000,
+      "tx_amount_stddev_cents": 10000,
+      "tx_amount_max_cents": 75000,
+      "unique_payment_methods": 1
+    },
+    "rule_stats": {
+      "fire_count_vendor_30d": 1,
+      "fire_count_all_30d": 8,
+      "dismiss_rate_30d": 0.80,
+      "escalate_rate_30d": 0.05
+    },
+    "network_signal_count": 0,
+    "outcomes": [
+      {
+        "alert_id": 50,
+        "rule_code": "ROUND_AMOUNT",
+        "recommendation": "dismiss",
+        "final_status": "dismissed",
+        "resolved_at": "2026-03-10T11:00:00Z"
+      },
+      {
+        "alert_id": 55,
+        "rule_code": "ROUND_AMOUNT",
+        "recommendation": "dismiss",
+        "final_status": "false_positive",
+        "resolved_at": "2026-03-25T16:00:00Z"
+      }
+    ]
+  }
+}
+
+docs {
+  Score a low-risk alert: $500, low severity, established vendor, high dismiss rate, no network signals.
+  Expected: "dismiss" with model_type "heuristic".
+}
