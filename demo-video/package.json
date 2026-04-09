@@ -1,0 +1,26 @@
+{
+  "name": "foundry-demo-video",
+  "private": true,
+  "scripts": {
+    "dev": "npx remotion studio src/index.ts",
+    "build": "npx remotion render src/index.ts FoundryDemo out/foundry-demo.mp4",
+    "build:vo": "npx remotion render src/index.ts FoundryDemoWithVoiceover out/foundry-demo-vo.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/google-fonts": "^4.0.0",
+    "@remotion/media": "^4.0.0",
+    "@remotion/transitions": "^4.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@remotion/tailwind-v4": "^4.0.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "puppeteer": "^24.40.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}
