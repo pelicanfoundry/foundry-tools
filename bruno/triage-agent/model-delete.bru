@@ -1,0 +1,27 @@
+meta {
+  name: Delete Model
+  type: http
+  seq: 4
+}
+
+delete {
+  url: http://localhost:8090/model/{{company_id}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  company_id: 00000000-a1c0-deb0-0000-000000000001
+}
+
+docs {
+  Wipes the in-memory model for a company. Returns 204 on success.
+
+  Use cases:
+  - Testing the cold-start path (force a retrain)
+  - GDPR / "forget this company" requests
+  - Resetting after a known-bad training run
+
+  Note: this only clears in-memory state. The next call to /train/{company_id}
+  will rebuild from the DB. There's no on-disk persistence in v1.
+}

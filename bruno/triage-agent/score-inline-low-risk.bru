@@ -1,0 +1,59 @@
+meta {
+  name: Score Inline - Low Risk Transaction
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:8090/score
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "company_id": "00000000-a1c0-deb0-0000-000000000001",
+    "amount": 234000,
+    "category": "vendor",
+    "payment_method": "ach",
+    "memo": "Monthly cleaning service",
+    "invoice_number": "ACME-1234",
+    "transaction_date": "2026-04-08",
+    "has_attachment": true,
+    "is_adjustment": false,
+    "po_number": "PO-2026-441",
+    "vendor_name": "Acme Office Supplies",
+    "vendor_category": "services",
+    "vendor_tax_id": "12-3456789",
+    "vendor_1099": false,
+    "vendor_is_shell": false,
+    "vendor_created_at": "2024-03-15T00:00:00Z",
+    "vendor_finding_count": 0,
+    "vendor_finding_score_sum": 0.0,
+    "vendor_critical_count": 0,
+    "vendor_high_count": 0
+  }
+}
+
+docs {
+  Score a transaction WITHOUT looking it up in the DB. Pass all the fields
+  inline.
+
+  This is the right endpoint for:
+  - Pre-insertion scoring (before the transaction has an id)
+  - What-if analysis from admin tools
+  - Hypothetical transactions in the AI Sandbox UI
+
+  This example: $2.3k ACH payment to a long-established trusted vendor with
+  EIN, no findings, has attachment and PO. Should score very low (~0.05).
+
+  Vendor fields are optional but heavily influence the score. If you can't
+  populate them, omit them — the model will use defaults but accuracy drops.
+
+  Required fields: company_id, amount, category, payment_method, memo,
+  invoice_number, transaction_date, has_attachment, is_adjustment, po_number.
+}

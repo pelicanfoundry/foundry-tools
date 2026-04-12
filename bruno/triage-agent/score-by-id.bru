@@ -1,0 +1,54 @@
+meta {
+  name: Score Transaction By ID
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8090/score/by-id
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "company_id": "00000000-a1c0-deb0-0000-000000000001",
+    "transaction_id": 21349
+  }
+}
+
+docs {
+  Score an existing transaction by id. The Rust service fetches the transaction
+  from the foundry DB (joining vendors and vendor_findings) and runs it through
+  the trained model.
+
+  Response (200):
+  {
+    "company_id": "uuid",
+    "transaction_id": 21349,
+    "fraud_score": 0.45,
+    "predicted_label": "ok",
+    "threshold": 0.5,
+    "model_trained_at": "2026-04-11T22:30:00Z"
+  }
+
+  Response (404):
+  - "no model for company" -> need to call POST /train/{company_id} first
+  - "transaction not found" -> the id doesn't exist in this company
+
+  This is the endpoint the foundry transaction insert hook should call. Pass
+  the company_id and the freshly-inserted transaction_id, store the returned
+  fraud_score on the transaction row.
+
+  Threshold semantics:
+  - fraud_score >= threshold -> predicted_label = "fraud"
+  - fraud_score <  threshold -> predicted_label = "ok"
+
+  The threshold defaults to 0.5 but can be tuned via the DETECTION_THRESHOLD env
+  var on the Rust service. Lower threshold = more recall, more false alarms.
+  Higher = more precision, more misses.
+}

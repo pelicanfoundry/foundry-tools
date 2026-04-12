@@ -1,0 +1,50 @@
+meta {
+  name: Score Inline - High Risk Transaction
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:8090/score
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "company_id": "00000000-a1c0-deb0-0000-000000000001",
+    "amount": 2500000,
+    "category": "vendor",
+    "payment_method": "check",
+    "memo": "",
+    "invoice_number": "",
+    "transaction_date": "2026-04-08",
+    "has_attachment": false,
+    "is_adjustment": false,
+    "po_number": "",
+    "vendor_name": "PhantomCorp LLC",
+    "vendor_category": "services",
+    "vendor_tax_id": "",
+    "vendor_1099": false,
+    "vendor_is_shell": true,
+    "vendor_created_at": "2026-03-25T00:00:00Z",
+    "vendor_finding_count": 4,
+    "vendor_finding_score_sum": 2.45,
+    "vendor_critical_count": 2,
+    "vendor_high_count": 1
+  }
+}
+
+docs {
+  This example: $25k check payment, no memo, no invoice, no attachment, no PO,
+  to a 2-week-old shell vendor with no tax ID and 4 active vendor findings
+  (2 critical). Should score near 1.00 (clear fraud).
+
+  Compare to score-inline-low-risk.bru — same endpoint, same model, completely
+  different score. Demonstrates that the model is using the full feature set,
+  not just one signal.
+}

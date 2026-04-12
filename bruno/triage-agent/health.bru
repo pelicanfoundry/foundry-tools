@@ -11,11 +11,14 @@ get {
 }
 
 docs {
-  Check if the triage sidecar is running and whether a trained model is loaded.
+  Liveness check for the fraud detection ML service.
 
-  Returns:
+  Response:
   - status: "ok"
-  - model_loaded: true/false
-  - model_type: "heuristic" or "trained"
-  - samples: number of training samples
+  - db_connected: true/false (whether the service can talk to foundry Postgres)
+  - company_models_loaded: number of company models currently in memory
+
+  Models are in-memory only in v1 — they get wiped on restart and have to be
+  retrained via POST /train/{company_id}. The retrain cron handles this in
+  production; for local dev, train manually after starting the service.
 }

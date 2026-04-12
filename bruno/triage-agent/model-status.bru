@@ -1,0 +1,39 @@
+meta {
+  name: Get Model Status
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:8090/model/{{company_id}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  company_id: 00000000-a1c0-deb0-0000-000000000001
+}
+
+docs {
+  Returns the current model state for the given company.
+
+  Response (200, model exists):
+  {
+    "company_id": "uuid",
+    "trained": true,
+    "sample_count": 320,
+    "accuracy": 0.94,
+    "last_trained": "2026-04-11T22:30:00Z",
+    "threshold": 0.5,
+    "feature_count": 26
+  }
+
+  Response (404, no model trained yet):
+  {
+    "error": "no model for company"
+  }
+
+  Use this in the Go side to check if a company is ready to score before
+  enabling AI triage in the UI. The pricing gate should require this to
+  return 200 before allowing the toggle to be flipped on.
+}

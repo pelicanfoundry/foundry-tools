@@ -1,0 +1,53 @@
+meta {
+  name: Score Inline - Borderline Transaction
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:8090/score
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "company_id": "00000000-a1c0-deb0-0000-000000000001",
+    "amount": 1200000,
+    "category": "vendor",
+    "payment_method": "check",
+    "memo": "Q1 services",
+    "invoice_number": "INV-9921",
+    "transaction_date": "2026-04-05",
+    "has_attachment": true,
+    "is_adjustment": false,
+    "po_number": "",
+    "vendor_name": "Borderline Supply Co",
+    "vendor_category": "services",
+    "vendor_tax_id": "85-1122334",
+    "vendor_1099": false,
+    "vendor_is_shell": false,
+    "vendor_created_at": "2025-09-01T00:00:00Z",
+    "vendor_finding_count": 1,
+    "vendor_finding_score_sum": 0.35,
+    "vendor_critical_count": 0,
+    "vendor_high_count": 1
+  }
+}
+
+docs {
+  This example: $12k check payment, ~7 month old vendor with EIN, has memo
+  and invoice and attachment, but only 1 vendor finding (high severity, no
+  critical). The vendor is in the "Gray Area" persona pool from the seeder.
+
+  Expected score: 0.30-0.50 — borderline. Some risk signals present but
+  nothing screaming. This is the kind of transaction where a human analyst
+  would want to take a quick look but it's not an emergency.
+
+  Use this example to validate that the model is producing nuanced
+  intermediate scores, not just slamming everything to 0 or 1.
+}
