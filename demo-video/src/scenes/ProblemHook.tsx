@@ -49,9 +49,9 @@ export const ProblemHook: React.FC<DemoProps> = () => {
   const { fps } = useVideoConfig();
 
   // Matched to voiceover (13.5s total):
-  // VO: "42% of fraud..." — 0-3s
+  // VO: "Half of all small businesses will face fraud..." — 0-3s
   // VO: "The average loss..." — 3-6s
-  // VO: "And it takes a full year..." — 6-8s
+  // VO: "...the average scheme runs for more than a year before anyone notices." — 6-8s
   // VO: "Your bookkeeper handles every payment." — 8-10.5s
   // VO: "But what if they're the one stealing?" — 10.5-13.5s
   // Logo: 13.5-15s
