@@ -4,38 +4,39 @@ const API_KEY = process.env.ELEVENLABS_API_KEY;
 const VOICE_ID = "cjVigY5qzO86Huf0OWal"; // Eric - Smooth, Trustworthy
 const OUTPUT_DIR = "public/voiceover";
 
-// Scene scripts — timed to match our 6 scenes
-// Scene 1: ProblemHook (0-15s)
-// Scene 2: DashboardOverview (15-35s)
-// Scene 3: AlertInvestigation (35-55s)
-// Scene 4: ForensicGraph (55-70s)
-// Scene 5: BankReconciliation (70-85s)
-// Scene 6: CTA (85-90s)
+// Scene scripts — one per scene, in order. SCENE_FRAMES in src/FoundryDemo.tsx
+// is re-timed to these audio lengths after regeneration.
+// 1 ProblemHook · 2 DashboardOverview · 3 AlertInvestigation · 4 Lineage
+// 5 BankReconciliation · 6 BenfordAnalysis · 7 CTA
 
 const scenes = [
   {
     id: "scene-1-hook",
-    text: "Forty-two percent of fraud targets small businesses. The average loss? A hundred and forty-five thousand dollars. And it takes a full year to even notice. Your bookkeeper handles every payment. But what if they're the one stealing?",
+    text: "Half of all small businesses will face fraud — and the average scheme runs for more than a year before anyone notices. Your bookkeeper touches every payment. So what happens when they're the one stealing?",
   },
   {
     id: "scene-2-dashboard",
-    text: "Foundry monitors every transaction from QuickBooks in real time. The dashboard gives you an instant risk overview — total spend, open alerts, and your highest-risk vendors. When something suspicious hits, you know immediately.",
+    text: "Foundry watches every QuickBooks transaction as it posts. One dashboard — your spend, your open alerts, your riskiest vendors — with an owner's view and a finance view. The moment something's off, you see it.",
   },
   {
     id: "scene-3-alerts",
-    text: "Each alert tells you exactly what happened, in plain English. The linked transaction shows the vendor, amount, and risk score. And our AI analysis connects the dots — flagging patterns like address matches with employees and rapid payment escalation.",
+    text: "Every alert explains itself in plain English: the vendor, the amount, the risk. And Foundry's AI writes the story behind it — the address it shares with an employee, payments that escalated too fast, a tax ID that doesn't exist.",
   },
   {
-    id: "scene-4-graph",
-    text: "The relationship graph reveals connections your spreadsheet never could. Vendors linked to employees. Same-day payment clusters. Duplicate invoice flags. Patterns that only emerge when you see the full picture.",
+    id: "scene-4-lineage",
+    text: "This is what a spreadsheet can never show you — the chain. An employee, the vendor they quietly created, and the money flowing out to it. Foundry traces the whole relationship over time, so insider schemes have nowhere to hide.",
   },
   {
     id: "scene-5-reconciliation",
-    text: "Payment verification cross-references every QuickBooks entry against your actual bank withdrawals. If money was recorded as paid but never left the bank account, Foundry finds it.",
+    text: "Foundry checks your books against reality — every recorded payment matched to a real bank withdrawal. Recorded as paid but never left the account? Paid twice? A name that doesn't line up? It surfaces all of it.",
   },
   {
-    id: "scene-6-cta",
-    text: "Foundry. Real-time fraud detection for your business. One hundred ninety-nine dollars a month. Five-minute setup.",
+    id: "scene-6-benford",
+    text: "Real spending follows a mathematical fingerprint. When numbers are invented, that fingerprint breaks. Foundry's Benford analysis flags the accounts where the digits don't add up — a classic tell for fabricated books.",
+  },
+  {
+    id: "scene-7-cta",
+    text: "Foundry. Real-time fraud detection for the people you trust with your money.",
   },
 ];
 
