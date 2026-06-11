@@ -24,7 +24,7 @@ const scenes = [
   },
   {
     id: "scene-4-lineage",
-    text: "This is what a spreadsheet can never show you — the chain. An employee, the vendor they quietly created, and the money flowing out to it. Foundry traces the whole relationship over time, so insider schemes have nowhere to hide.",
+    text: "Foundry traces the full lineage of every payment — when the vendor was added, the bill it came from, each check that went out, and the moment it cleared your bank. A complete chain of custody, so every dollar can account for itself.",
   },
   {
     id: "scene-5-reconciliation",
@@ -83,7 +83,9 @@ async function main() {
 
   mkdirSync(OUTPUT_DIR, { recursive: true });
 
-  for (const scene of scenes) {
+  // ONLY=scene-id regenerates a single scene (leaves the rest untouched).
+  const targets = process.env.ONLY ? scenes.filter((s) => s.id === process.env.ONLY) : scenes;
+  for (const scene of targets) {
     await generateScene(scene);
   }
 

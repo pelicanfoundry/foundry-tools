@@ -40,24 +40,24 @@ export const Lineage: React.FC<DemoProps> = ({ withVoiceover }) => {
 
       <Sequence from={Math.round(2 * fps)} durationInFrames={Math.round(3.5 * fps)} premountFor={30}>
         <TextOverlay
-          text="It starts with a person inside your books."
-          highlight="a person"
+          text="Every payment, traced to its source."
+          highlight="traced to its source"
           withVoiceover={withVoiceover}
         />
       </Sequence>
 
       <Sequence from={Math.round(6 * fps)} durationInFrames={Math.round(3.5 * fps)} premountFor={30}>
         <TextOverlay
-          text="...and a vendor that shares their identity."
-          highlight="shares their identity"
+          text="Bill, payments, and the bank clearing — one chain."
+          highlight="one chain"
           withVoiceover={withVoiceover}
         />
       </Sequence>
 
       <Sequence from={Math.round(10 * fps)} durationInFrames={Math.round(4 * fps)} premountFor={30}>
         <TextOverlay
-          text="Follow the chain — person, vendor, payout."
-          highlight="Follow the chain"
+          text="A complete chain of custody for your money."
+          highlight="chain of custody"
           withVoiceover={withVoiceover}
         />
       </Sequence>
