@@ -12,7 +12,8 @@ const OUTPUT_DIR = "public/voiceover";
 const scenes = [
   {
     id: "scene-1-hook",
-    text: "Half of all small businesses will face fraud — and the average scheme runs for more than a year before anyone notices. Your bookkeeper touches every payment. So what happens when they're the one stealing?",
+    text: "Half of all small businesses will face fraud. And the average scheme? It runs for more than a year... before anyone notices. Your bookkeeper touches every payment. So what happens when they're the one stealing?",
+    settings: { stability: 0.42, similarity_boost: 0.8, style: 0.5 },
   },
   {
     id: "scene-2-dashboard",
@@ -55,7 +56,10 @@ async function generateScene(scene) {
       body: JSON.stringify({
         text: scene.text,
         model_id: "eleven_multilingual_v2",
-        voice_settings: {
+        // Per-scene override via scene.settings; default is the steady narrator
+        // voice. The opening hook uses a more expressive setting (lower
+        // stability, higher style) so it lands like a cold open, not a readout.
+        voice_settings: scene.settings || {
           stability: 0.6,
           similarity_boost: 0.75,
           style: 0.2,
