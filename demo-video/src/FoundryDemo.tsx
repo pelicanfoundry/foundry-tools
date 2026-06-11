@@ -8,7 +8,7 @@ import { colors, fonts } from "./theme";
 import { ProblemHook } from "./scenes/ProblemHook";
 import { DashboardOverview } from "./scenes/DashboardOverview";
 import { AlertInvestigation } from "./scenes/AlertInvestigation";
-import { ForensicGraph } from "./scenes/ForensicGraph";
+import { Lineage } from "./scenes/Lineage";
 import { BenfordAnalysis } from "./scenes/BenfordAnalysis";
 import { BankReconciliation } from "./scenes/BankReconciliation";
 import { CTA } from "./scenes/CTA";
@@ -26,10 +26,10 @@ const VOICEOVER_FILES = [
   "voiceover/scene-1-hook.mp3",
   "voiceover/scene-2-dashboard.mp3",
   "voiceover/scene-3-alerts.mp3",
-  "voiceover/scene-4-graph.mp3",
-  "voiceover/scene-5-benford.mp3",
+  "voiceover/scene-4-lineage.mp3",
   "voiceover/scene-5-reconciliation.mp3",
-  "voiceover/scene-6-cta.mp3",
+  "voiceover/scene-6-benford.mp3",
+  "voiceover/scene-7-cta.mp3",
 ];
 
 // Wrapper that layers a scene component with its voiceover audio
@@ -53,7 +53,7 @@ export const FoundryDemo: React.FC<DemoProps> = ({ withVoiceover }) => {
     <ProblemHook withVoiceover={withVoiceover} />,
     <DashboardOverview withVoiceover={withVoiceover} />,
     <AlertInvestigation withVoiceover={withVoiceover} />,
-    <ForensicGraph withVoiceover={withVoiceover} />,
+    <Lineage withVoiceover={withVoiceover} />,
     <BenfordAnalysis withVoiceover={withVoiceover} />,
     <BankReconciliation withVoiceover={withVoiceover} />,
     <CTA withVoiceover={withVoiceover} />,
