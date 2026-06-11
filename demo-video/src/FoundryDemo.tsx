@@ -18,11 +18,11 @@ const FADE_DURATION = 10;
 
 // Scene durations. Scene 0 is the silent branded intro (2s). The rest =
 // voiceover audio length + ~2s breathing room (ceil(dur*30)+60).
-// VO durations: 13.70s, 12.31s, 14.77s, 12.82s, 14.16s, 13.10s, 4.23s
-const SCENE_FRAMES = [60, 471, 430, 504, 445, 485, 453, 187];
+// VO durations: 12.07s, 12.31s, 14.77s, 12.82s, 14.16s, 13.10s, 4.23s
+const SCENE_FRAMES = [60, 423, 430, 504, 445, 485, 453, 187];
 
-// Total: sum(SCENE_FRAMES) - (7 transitions * 10) = 3035 - 70 = 2965
-const TOTAL_FRAMES = 2965;
+// Total: sum(SCENE_FRAMES) - (7 transitions * 10) = 2987 - 70 = 2917
+const TOTAL_FRAMES = 2917;
 
 // One entry per scene. The intro has no voiceover (empty string => no Audio).
 const VOICEOVER_FILES = [

@@ -12,8 +12,8 @@ const OUTPUT_DIR = "public/voiceover";
 const scenes = [
   {
     id: "scene-1-hook",
-    text: "Half of all small businesses<break time=\"0.65s\" /> will face fraud. And the average scheme runs for more than a year<break time=\"0.4s\" /> before anyone notices. Your bookkeeper touches every payment. So what happens<break time=\"0.35s\" /> when they're the one stealing?",
-    settings: { stability: 0.5, similarity_boost: 0.8, style: 0.32 },
+    text: "Half of all small businesses, WILL face fraud. And the average scheme runs for more than a year before anyone notices. Your bookkeeper touches every payment. So what happens when they're the one stealing?",
+    settings: { stability: 0.45, similarity_boost: 0.8, style: 0.38 },
   },
   {
     id: "scene-2-dashboard",
