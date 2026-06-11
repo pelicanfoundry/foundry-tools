@@ -54,8 +54,8 @@ export const FoundryDemo: React.FC<DemoProps> = ({ withVoiceover }) => {
     <DashboardOverview withVoiceover={withVoiceover} />,
     <AlertInvestigation withVoiceover={withVoiceover} />,
     <Lineage withVoiceover={withVoiceover} />,
-    <BenfordAnalysis withVoiceover={withVoiceover} />,
     <BankReconciliation withVoiceover={withVoiceover} />,
+    <BenfordAnalysis withVoiceover={withVoiceover} />,
     <CTA withVoiceover={withVoiceover} />,
   ];
 

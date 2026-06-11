@@ -3,16 +3,17 @@ set -euo pipefail
 
 mkdir -p out
 
-echo "Rendering FoundryDemo (text overlays, no voiceover)..."
-npx remotion render src/index.ts FoundryDemo out/foundry-demo.mp4 \
+# Prefer the package's real CLI entrypoint (the .bin/remotion npx shim is broken
+# in some checkouts); fall back to npx where the shim works.
+if [ -f node_modules/@remotion/cli/remotion-cli.js ]; then
+  REMOTION=(node node_modules/@remotion/cli/remotion-cli.js)
+else
+  REMOTION=(npx remotion)
+fi
+
+echo "Rendering FoundryDemoWithVoiceover..."
+"${REMOTION[@]}" render src/index.ts FoundryDemoWithVoiceover out/foundry-demo-voiceover.mp4 \
   --codec h264 \
   --quality 80
 
-echo "Done: out/foundry-demo.mp4"
-
-# Uncomment when voiceover audio is ready:
-# echo "Rendering FoundryDemoWithVoiceover..."
-# npx remotion render src/index.ts FoundryDemoWithVoiceover out/foundry-demo-voiceover.mp4 \
-#   --codec h264 \
-#   --quality 80
-# echo "Done: out/foundry-demo-voiceover.mp4"
+echo "Done: out/foundry-demo-voiceover.mp4"
