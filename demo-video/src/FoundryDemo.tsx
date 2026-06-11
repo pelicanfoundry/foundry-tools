@@ -5,6 +5,7 @@ import { fade } from "@remotion/transitions/fade";
 import { Audio } from "@remotion/media";
 import type { DemoProps } from "./types";
 import { colors, fonts } from "./theme";
+import { Intro } from "./scenes/Intro";
 import { ProblemHook } from "./scenes/ProblemHook";
 import { DashboardOverview } from "./scenes/DashboardOverview";
 import { AlertInvestigation } from "./scenes/AlertInvestigation";
@@ -15,14 +16,17 @@ import { CTA } from "./scenes/CTA";
 
 const FADE_DURATION = 10;
 
-// Scene durations = voiceover audio length + ~2s breathing room (ceil(dur*30)+60).
+// Scene durations. Scene 0 is the silent branded intro (2s). The rest =
+// voiceover audio length + ~2s breathing room (ceil(dur*30)+60).
 // VO durations: 10.96s, 12.31s, 14.77s, 14.12s, 14.16s, 13.10s, 4.23s
-const SCENE_FRAMES = [389, 430, 504, 484, 485, 453, 187];
+const SCENE_FRAMES = [60, 389, 430, 504, 484, 485, 453, 187];
 
-// Total: sum(SCENE_FRAMES) - (6 transitions * 10) = 2932 - 60 = 2872
-const TOTAL_FRAMES = 2872;
+// Total: sum(SCENE_FRAMES) - (7 transitions * 10) = 2992 - 70 = 2922
+const TOTAL_FRAMES = 2922;
 
+// One entry per scene. The intro has no voiceover (empty string => no Audio).
 const VOICEOVER_FILES = [
+  "",
   "voiceover/scene-1-hook.mp3",
   "voiceover/scene-2-dashboard.mp3",
   "voiceover/scene-3-alerts.mp3",
@@ -41,7 +45,7 @@ const SceneWithAudio: React.FC<{
   return (
     <AbsoluteFill>
       {children}
-      {withVoiceover && (
+      {withVoiceover && voiceoverFile && (
         <Audio src={staticFile(voiceoverFile)} volume={0.9} />
       )}
     </AbsoluteFill>
@@ -50,6 +54,7 @@ const SceneWithAudio: React.FC<{
 
 export const FoundryDemo: React.FC<DemoProps> = ({ withVoiceover }) => {
   const scenes = [
+    <Intro />,
     <ProblemHook withVoiceover={withVoiceover} />,
     <DashboardOverview withVoiceover={withVoiceover} />,
     <AlertInvestigation withVoiceover={withVoiceover} />,

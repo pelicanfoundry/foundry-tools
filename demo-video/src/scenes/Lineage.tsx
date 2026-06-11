@@ -24,7 +24,7 @@ export const Lineage: React.FC<DemoProps> = ({ withVoiceover }) => {
     extrapolateRight: "clamp",
   });
 
-  const zoom = interpolate(frame, [0, 14 * fps], [1, 1.05], {
+  const zoom = interpolate(frame, [0, 14 * fps], [1, 1.02], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -34,7 +34,7 @@ export const Lineage: React.FC<DemoProps> = ({ withVoiceover }) => {
       <AbsoluteFill style={{ transform: `scale(${zoom})`, transformOrigin: "center center" }}>
         <Img
           src={staticFile("screenshots/vendor-lineage.png")}
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
         />
       </AbsoluteFill>
 
