@@ -5,7 +5,7 @@ import {
   useVideoConfig,
 } from "remotion";
 import { fonts, colors, sizes } from "../theme";
-import { FoundryLogo } from "../components/FoundryLogo";
+import { BrandLogo } from "../components/BrandLogo";
 import { problemStats } from "../data/demo-data";
 import type { DemoProps } from "../types";
 
@@ -174,7 +174,7 @@ export const ProblemHook: React.FC<DemoProps> = () => {
       {/* Logo */}
       {frame >= logoStart && (
         <div style={{ opacity: logoOpacity }}>
-          <FoundryLogo />
+          <BrandLogo scale={0.6} />
         </div>
       )}
     </AbsoluteFill>
