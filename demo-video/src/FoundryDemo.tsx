@@ -15,12 +15,12 @@ import { CTA } from "./scenes/CTA";
 
 const FADE_DURATION = 10;
 
-// Scene durations sized to voiceover audio + ~2s breathing room
-// VO durations: 13.5s, 13.9s, 15.2s, 13.2s, 13.8s, 10.5s, 6.5s
-const SCENE_FRAMES = [450, 480, 510, 450, 480, 375, 240];
+// Scene durations = voiceover audio length + ~2s breathing room (ceil(dur*30)+60).
+// VO durations: 10.96s, 12.31s, 14.77s, 14.12s, 14.16s, 13.10s, 4.23s
+const SCENE_FRAMES = [389, 430, 504, 484, 485, 453, 187];
 
-// Total: sum - (6 transitions * 10) = 2985 - 60 = 2925
-const TOTAL_FRAMES = 2925;
+// Total: sum(SCENE_FRAMES) - (6 transitions * 10) = 2932 - 60 = 2872
+const TOTAL_FRAMES = 2872;
 
 const VOICEOVER_FILES = [
   "voiceover/scene-1-hook.mp3",
