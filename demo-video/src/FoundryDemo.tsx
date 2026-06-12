@@ -5,31 +5,35 @@ import { fade } from "@remotion/transitions/fade";
 import { Audio } from "@remotion/media";
 import type { DemoProps } from "./types";
 import { colors, fonts } from "./theme";
+import { Intro } from "./scenes/Intro";
 import { ProblemHook } from "./scenes/ProblemHook";
 import { DashboardOverview } from "./scenes/DashboardOverview";
 import { AlertInvestigation } from "./scenes/AlertInvestigation";
-import { ForensicGraph } from "./scenes/ForensicGraph";
+import { Lineage } from "./scenes/Lineage";
 import { BenfordAnalysis } from "./scenes/BenfordAnalysis";
 import { BankReconciliation } from "./scenes/BankReconciliation";
 import { CTA } from "./scenes/CTA";
 
 const FADE_DURATION = 10;
 
-// Scene durations sized to voiceover audio + ~2s breathing room
-// VO durations: 13.5s, 13.9s, 15.2s, 13.2s, 13.8s, 10.5s, 6.5s
-const SCENE_FRAMES = [450, 480, 510, 450, 480, 375, 240];
+// Scene durations. Scene 0 is the silent branded intro (2s). The rest =
+// voiceover audio length + ~2s breathing room (ceil(dur*30)+60).
+// VO durations: 12.07s, 12.31s, 14.77s, 12.82s, 14.16s, 13.10s, 4.23s
+const SCENE_FRAMES = [60, 423, 430, 504, 445, 485, 453, 187];
 
-// Total: sum - (6 transitions * 10) = 2985 - 60 = 2925
-const TOTAL_FRAMES = 2925;
+// Total: sum(SCENE_FRAMES) - (7 transitions * 10) = 2987 - 70 = 2917
+const TOTAL_FRAMES = 2917;
 
+// One entry per scene. The intro has no voiceover (empty string => no Audio).
 const VOICEOVER_FILES = [
+  "",
   "voiceover/scene-1-hook.mp3",
   "voiceover/scene-2-dashboard.mp3",
   "voiceover/scene-3-alerts.mp3",
-  "voiceover/scene-4-graph.mp3",
-  "voiceover/scene-5-benford.mp3",
+  "voiceover/scene-4-lineage.mp3",
   "voiceover/scene-5-reconciliation.mp3",
-  "voiceover/scene-6-cta.mp3",
+  "voiceover/scene-6-benford.mp3",
+  "voiceover/scene-7-cta.mp3",
 ];
 
 // Wrapper that layers a scene component with its voiceover audio
@@ -41,7 +45,7 @@ const SceneWithAudio: React.FC<{
   return (
     <AbsoluteFill>
       {children}
-      {withVoiceover && (
+      {withVoiceover && voiceoverFile && (
         <Audio src={staticFile(voiceoverFile)} volume={0.9} />
       )}
     </AbsoluteFill>
@@ -50,12 +54,13 @@ const SceneWithAudio: React.FC<{
 
 export const FoundryDemo: React.FC<DemoProps> = ({ withVoiceover }) => {
   const scenes = [
+    <Intro />,
     <ProblemHook withVoiceover={withVoiceover} />,
     <DashboardOverview withVoiceover={withVoiceover} />,
     <AlertInvestigation withVoiceover={withVoiceover} />,
-    <ForensicGraph withVoiceover={withVoiceover} />,
-    <BenfordAnalysis withVoiceover={withVoiceover} />,
+    <Lineage withVoiceover={withVoiceover} />,
     <BankReconciliation withVoiceover={withVoiceover} />,
+    <BenfordAnalysis withVoiceover={withVoiceover} />,
     <CTA withVoiceover={withVoiceover} />,
   ];
 

@@ -41,13 +41,13 @@ export const BenfordAnalysis: React.FC<DemoProps> = ({ withVoiceover }) => {
   );
 
   // Subtle zoom on overview
-  const overviewZoom = interpolate(frame, [0, 6 * fps], [1, 1.03], {
+  const overviewZoom = interpolate(frame, [0, 6 * fps], [1, 1.02], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
 
   // Subtle zoom on detail
-  const detailZoom = interpolate(frame, [switchFrame, 14 * fps], [1, 1.04], {
+  const detailZoom = interpolate(frame, [switchFrame, 14 * fps], [1, 1.02], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -58,7 +58,7 @@ export const BenfordAnalysis: React.FC<DemoProps> = ({ withVoiceover }) => {
       <AbsoluteFill style={{ opacity: overviewOpacity, transform: `scale(${overviewZoom})`, transformOrigin: "center center" }}>
         <Img
           src={staticFile("screenshots/benford.png")}
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
         />
       </AbsoluteFill>
 
@@ -66,7 +66,7 @@ export const BenfordAnalysis: React.FC<DemoProps> = ({ withVoiceover }) => {
       <AbsoluteFill style={{ opacity: detailOpacity, transform: `scale(${detailZoom})`, transformOrigin: "center center" }}>
         <Img
           src={staticFile("screenshots/benford-detail.png")}
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
         />
       </AbsoluteFill>
 

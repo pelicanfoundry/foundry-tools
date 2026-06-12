@@ -5,7 +5,6 @@ import {
   useVideoConfig,
 } from "remotion";
 import { fonts, colors, sizes } from "../theme";
-import { FoundryLogo } from "../components/FoundryLogo";
 import { problemStats } from "../data/demo-data";
 import type { DemoProps } from "../types";
 
@@ -49,9 +48,9 @@ export const ProblemHook: React.FC<DemoProps> = () => {
   const { fps } = useVideoConfig();
 
   // Matched to voiceover (13.5s total):
-  // VO: "42% of fraud..." — 0-3s
+  // VO: "Half of all small businesses will face fraud..." — 0-3s
   // VO: "The average loss..." — 3-6s
-  // VO: "And it takes a full year..." — 6-8s
+  // VO: "...the average scheme runs for more than a year before anyone notices." — 6-8s
   // VO: "Your bookkeeper handles every payment." — 8-10.5s
   // VO: "But what if they're the one stealing?" — 10.5-13.5s
   // Logo: 13.5-15s
@@ -68,9 +67,6 @@ export const ProblemHook: React.FC<DemoProps> = () => {
   // Phase 4: "What if they're stealing?" at 11s, holds until 13.5s
   const stealingStart = Math.round(11 * fps);
   const stealingEnd = Math.round(13.5 * fps);
-
-  // Phase 5: Logo at 13.5s
-  const logoStart = Math.round(13.5 * fps);
 
   // Stats fade out
   const statsFadeOut = interpolate(
@@ -100,14 +96,6 @@ export const ProblemHook: React.FC<DemoProps> = () => {
     frame,
     [stealingStart, stealingStart + 0.3 * fps],
     [1.08, 1],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
-  );
-
-  // Logo
-  const logoOpacity = interpolate(
-    frame,
-    [logoStart, logoStart + 0.5 * fps],
-    [0, 1],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
   );
 
@@ -168,13 +156,6 @@ export const ProblemHook: React.FC<DemoProps> = () => {
         >
           What if they're{" "}
           <span style={{ color: colors.teal }}>stealing</span>?
-        </div>
-      )}
-
-      {/* Logo */}
-      {frame >= logoStart && (
-        <div style={{ opacity: logoOpacity }}>
-          <FoundryLogo />
         </div>
       )}
     </AbsoluteFill>

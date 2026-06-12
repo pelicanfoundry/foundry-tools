@@ -18,7 +18,7 @@ export const DashboardOverview: React.FC<DemoProps> = () => {
     extrapolateRight: "clamp",
   });
 
-  const zoom = interpolate(frame, [0, 16 * fps], [1, 1.04], {
+  const zoom = interpolate(frame, [0, 16 * fps], [1, 1.02], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -28,7 +28,7 @@ export const DashboardOverview: React.FC<DemoProps> = () => {
       <AbsoluteFill style={{ transform: `scale(${zoom})`, transformOrigin: "center center" }}>
         <Img
           src={staticFile("screenshots/dashboard.png")}
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          style={{ width: "100%", height: "100%", objectFit: "contain" }}
         />
       </AbsoluteFill>
     </AbsoluteFill>

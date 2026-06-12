@@ -3,7 +3,7 @@ import { FoundryDemo } from "./FoundryDemo";
 import type { DemoProps } from "./types";
 import "./index.css";
 
-const DURATION = 2925;
+const DURATION = 2917;
 
 export const RemotionRoot = () => {
   return (

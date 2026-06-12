@@ -155,7 +155,7 @@ export const reconciliationData = {
 } as const;
 
 export const problemStats = [
-  "42% of fraud targets small businesses",
+  "Half of all small businesses will face fraud",
   "Average loss: $145,000",
-  "Median time to detect: 12 months",
+  "Median time to detect: over a year",
 ] as const;
