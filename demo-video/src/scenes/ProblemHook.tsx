@@ -5,7 +5,6 @@ import {
   useVideoConfig,
 } from "remotion";
 import { fonts, colors, sizes } from "../theme";
-import { BrandLogo } from "../components/BrandLogo";
 import { problemStats } from "../data/demo-data";
 import type { DemoProps } from "../types";
 
@@ -69,9 +68,6 @@ export const ProblemHook: React.FC<DemoProps> = () => {
   const stealingStart = Math.round(11 * fps);
   const stealingEnd = Math.round(13.5 * fps);
 
-  // Phase 5: Logo at 13.5s
-  const logoStart = Math.round(13.5 * fps);
-
   // Stats fade out
   const statsFadeOut = interpolate(
     frame,
@@ -100,14 +96,6 @@ export const ProblemHook: React.FC<DemoProps> = () => {
     frame,
     [stealingStart, stealingStart + 0.3 * fps],
     [1.08, 1],
-    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
-  );
-
-  // Logo
-  const logoOpacity = interpolate(
-    frame,
-    [logoStart, logoStart + 0.5 * fps],
-    [0, 1],
     { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
   );
 
@@ -168,13 +156,6 @@ export const ProblemHook: React.FC<DemoProps> = () => {
         >
           What if they're{" "}
           <span style={{ color: colors.teal }}>stealing</span>?
-        </div>
-      )}
-
-      {/* Logo */}
-      {frame >= logoStart && (
-        <div style={{ opacity: logoOpacity }}>
-          <BrandLogo scale={0.6} />
         </div>
       )}
     </AbsoluteFill>
