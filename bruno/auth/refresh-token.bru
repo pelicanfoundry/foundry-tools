@@ -20,9 +20,24 @@ body:form-urlencoded {
   refresh_token: {{refresh_token}}
 }
 
+script:post-response {
+  if (res.body && res.body.access_token) {
+    bru.setEnvVar("access_token", res.body.access_token);
+    bru.setEnvVar("refresh_token", res.body.refresh_token);
+    console.log("access_token + refresh_token updated in this environment");
+  } else {
+    console.log("no access_token in response — check client_id/client_secret/refresh_token vars", res.body);
+  }
+}
+
 docs {
   Refresh the access token using the refresh token.
   Returns a new access_token (and new refresh_token — rotate it).
+
+  Auto-saves both into the current environment's secret vars on success —
+  every other request in this collection uses {{access_token}}, so you
+  don't need to copy/paste. Just run this whenever a request comes back
+  401/invalid_token (access_token expires after 3600s).
 
   Foundry stores both tokens encrypted in the qbo_connections table.
   RefreshToken() in client.go calls this endpoint.

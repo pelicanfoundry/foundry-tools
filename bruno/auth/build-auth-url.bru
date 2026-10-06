@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{auth_url}}
+  url: {{auth_url}}?client_id={{client_id}}&response_type=code&scope=com.intuit.quickbooks.accounting&redirect_uri={{redirect_uri}}&state=foundry-oauth-state
   body: none
   auth: none
 }
@@ -25,4 +25,11 @@ docs {
 
   In Foundry, AuthURL() in client.go builds this URL.
   The /integrations/qbo/connect handler redirects the user here.
+
+  Bug fixed 2026-07-09: the url field previously had no query string —
+  only the params:query{} block, which Bruno treats as a display mirror
+  of the url's own query string, not an independent source. Sending it
+  produced a bare https://appcenter.intuit.com/connect/oauth2 with zero
+  params, which is why Intuit rejected it as "client_id missing" even
+  with client_id correctly set in the environment.
 }

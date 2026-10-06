@@ -1,0 +1,48 @@
+meta {
+  name: List Vendors
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{probity_base_url}}/vendors?limit={{probity_limit}}
+  body: none
+  auth: bearer
+}
+
+params:query {
+  limit: {{probity_limit}}
+  ~category: subcontractor
+  ~is_shell: true
+  ~vendor_1099: true
+  ~cursor: 
+}
+
+auth:bearer {
+  token: {{probity_api_key}}
+}
+
+headers {
+  Accept: application/json
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
+
+docs {
+  List vendors for the key's company, newest first. Requires `vendors:read`.
+
+  Optional filters (toggle the ~disabled ones on): category, is_shell,
+  vendor_1099.
+
+  Response: { data: Vendor[], next_cursor, has_more }
+  Vendor: { id, name, category, is_shell, vendor_1099, risk, created_at }
+  risk: { active_finding_count, highest_severity }  — deliberately no summed
+        score (it saturates and destroys information)
+
+  `name` is omitted for a `partner` key — partner keys get structural fields
+  only. Contact identifiers (tax id, email, phone, address, notes) are never
+  exposed to any key.
+}

@@ -1,0 +1,38 @@
+meta {
+  name: Get Vendor Finding
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{probity_base_url}}/vendor-findings/:finding_id
+  body: none
+  auth: bearer
+}
+
+params:path {
+  finding_id: 1
+}
+
+auth:bearer {
+  token: {{probity_api_key}}
+}
+
+headers {
+  Accept: application/json
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
+
+docs {
+  Get one vendor finding by id. Requires `findings:read`.
+
+  Dereferences the id carried by an `/investigations` row of type `finding`,
+  so that id is independently resolvable.
+
+  Returns the VendorFinding object directly (no envelope). 404 for an unknown
+  id OR another company's finding — deliberately indistinguishable.
+}

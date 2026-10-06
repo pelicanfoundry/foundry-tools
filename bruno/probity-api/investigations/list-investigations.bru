@@ -1,0 +1,63 @@
+meta {
+  name: List Investigations
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{probity_base_url}}/investigations
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~limit: {{probity_limit}}
+  ~type: alert
+  ~status: investigating
+  ~severity: high
+  ~classification: fraud_risk
+  ~category: relationship
+  ~group_by: vendor_rule
+  ~cursor: 
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{probity_api_key}}
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
+
+docs {
+  Alerts and vendor findings that have entered the investigation workflow,
+  unioned and ordered by last activity (newest first). Requires
+  `investigations:read`.
+  
+  Filters: type (alert | finding), status, severity.
+  
+  Response: { data: Investigation[], next_cursor, has_more }
+  Investigation: { type, id, rule_code, title, classification, category,
+                   severity, status, vendor_id, vendor_name, transaction_id,
+                   detected_at, last_activity_at, due_date, note_count }
+  
+  Self-sufficient for a queue/ticket: rule_code is the stable id, title the
+  display name, vendor_name the counterparty (customer keys only — omitted for
+  partner keys), transaction_id the linked transaction (null for findings),
+  detected_at when Probity detected it (vs last_activity_at lifecycle),
+  note_count activity (>0 = someone has worked it).
+  
+  The cursor is composite — always pass next_cursor back unchanged; don't
+  construct one.
+  
+  `group_by=vendor_rule` collapses items sharing (vendor_id, rule_code) into one
+  rollup row: { rule_code, vendor_id, vendor_name, title, classification,
+  category, highest_severity, item_count, alert_count, finding_count,
+  first_detected_at, last_activity_at, items[{type,id}] }. This is how a vendor's
+  repeated detections stop reading as duplicate queue rows. Omit for one-row-per-item.
+}

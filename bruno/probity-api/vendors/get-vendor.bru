@@ -1,0 +1,35 @@
+meta {
+  name: Get Vendor
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{probity_base_url}}/vendors/:vendor_id
+  body: none
+  auth: bearer
+}
+
+params:path {
+  vendor_id: 1
+}
+
+auth:bearer {
+  token: {{probity_api_key}}
+}
+
+headers {
+  Accept: application/json
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
+
+docs {
+  Get one vendor by id. Requires `vendors:read`.
+
+  Returns the Vendor object directly (no envelope). `name` is omitted for a
+  `partner` key. 404 for an unknown id or another company's vendor.
+}

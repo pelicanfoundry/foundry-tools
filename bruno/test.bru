@@ -5,17 +5,29 @@ meta {
 }
 
 get {
-  url: https://sandbox-quickbooks.api.intuit.com/v3/company/9341456594594180/companyinfo/9341456594594180
+  url: {{base_url}}/{{realm_id}}/companyinfo/{{realm_id}}
   body: none
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
 }
 
 headers {
   accept: application/json
-  authorization: Bearer
 }
 
 settings {
   encodeUrl: false
   timeout: 0
+}
+
+docs {
+  Quick connectivity smoke test — run this first after Refresh Token to
+  confirm {{access_token}} is valid before running anything else.
+
+  Was hardcoded to a literal realm_id with an empty "authorization: Bearer"
+  header, which overrides any auth and always 401s regardless of a valid
+  token — fixed to use the environment vars + real bearer auth.
 }

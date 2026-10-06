@@ -1,0 +1,44 @@
+meta {
+  name: Alert Activity
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{probity_base_url}}/alerts/:alert_id/activity?limit={{probity_limit}}
+  body: none
+  auth: bearer
+}
+
+params:path {
+  alert_id: 1
+}
+
+params:query {
+  limit: {{probity_limit}}
+  ~cursor: 
+}
+
+auth:bearer {
+  token: {{probity_api_key}}
+}
+
+headers {
+  Accept: application/json
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
+
+docs {
+  Status-change history for one alert, newest first. Requires `alerts:read`.
+
+  Response: { data: Activity[], next_cursor, has_more }
+  Activity: { id, event_type: "status_change", from, to, created_at }
+
+  Only structured status transitions are exposed. Free-text notes and the
+  actor identity (which falls back to an email) are deliberately omitted.
+  The alert must exist in the key's company, else 404.
+}

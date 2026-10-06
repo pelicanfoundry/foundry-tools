@@ -1,0 +1,50 @@
+meta {
+  name: List Transactions
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{probity_base_url}}/transactions?limit={{probity_limit}}
+  body: none
+  auth: bearer
+}
+
+params:query {
+  limit: {{probity_limit}}
+  ~vendor_id: 
+  ~from: 2024-01-01
+  ~to: 2024-12-31
+  ~include_void: false
+  ~cursor: 
+}
+
+auth:bearer {
+  token: {{probity_api_key}}
+}
+
+headers {
+  Accept: application/json
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
+
+docs {
+  List transactions for the key's company, newest first. Requires
+  `transactions:read`.
+
+  Voided rows are excluded by default; `include_void=true` widens to voided
+  rows only. Soft-deleted rows are never returned.
+
+  Response: { data: Transaction[], next_cursor, has_more }
+  Transaction: { id, vendor_id, category, payment_method, transaction_date,
+                 is_void, is_deleted, tx_type, has_attachment, risk }
+  risk: { score (0.0–1.0, NOT a probability; null when unscored),
+          alert_count, highest_severity }
+
+  No amount (v1 exposes no money on transactions — see the API notes), no
+  payee/memo/invoice number/bank descriptor.
+}

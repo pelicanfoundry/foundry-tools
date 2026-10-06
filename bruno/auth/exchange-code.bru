@@ -17,15 +17,29 @@ auth:basic {
 
 body:form-urlencoded {
   grant_type: authorization_code
-  code: {{auth_code}}
+  code: XAB11783594191yYfScBEYipqpkKKfVtNeiAnUjmUBsM30E2Fa
   redirect_uri: {{redirect_uri}}
+}
+
+script:post-response {
+  if (res.body && res.body.access_token) {
+    bru.setEnvVar("access_token", res.body.access_token);
+    bru.setEnvVar("refresh_token", res.body.refresh_token);
+    console.log("access_token + refresh_token saved to this environment");
+  } else {
+    console.log("no access_token in response — auth_code may be stale (single-use, ~10min TTL)", res.body);
+  }
 }
 
 docs {
   Exchange the authorization code received from the OAuth callback for
   access_token + refresh_token. Run this once after the user approves
   the connection in QBO.
-
+  
+  Auto-saves both tokens into the current environment's secret vars on
+  success. auth_code is single-use and short-lived (~10 min) — if this
+  comes back invalid_grant, redo the Build Auth URL flow for a fresh code.
+  
   access_token expires in 3600s.
   refresh_token expires in 100 days.
 }

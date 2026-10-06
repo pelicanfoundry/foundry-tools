@@ -1,0 +1,54 @@
+meta {
+  name: List Vendor Findings
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{probity_base_url}}/vendor-findings?limit={{probity_limit}}
+  body: none
+  auth: bearer
+}
+
+params:query {
+  limit: {{probity_limit}}
+  ~status: investigating
+  ~rule_code: SHELL_VENDOR
+  ~classification: fraud_risk
+  ~category: relationship
+  ~vendor_id: 
+  ~cursor: 
+}
+
+auth:bearer {
+  token: {{probity_api_key}}
+}
+
+headers {
+  Accept: application/json
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
+
+docs {
+  List vendor findings for the key's company, newest first. Requires
+  `findings:read`.
+
+  Filters: status, rule_code, vendor_id.
+
+  Response: { data: VendorFinding[], next_cursor, has_more }
+  VendorFinding: { id, vendor_id, rule_code, rule_name, classification,
+                   category, severity, status, score, magnitude_field,
+                   magnitude_cents, first_detected_at, last_detected_at,
+                   due_date, created_at }
+
+  classification (fraud_risk | hygiene | exploratory) and category
+  (behavioral | relationship | financial | compliance | other) are Probity's
+  canonical labels.
+
+  magnitude_field names the basis of magnitude_cents (e.g. accrual vs cash).
+  Free-text summary, evidence, and actor fields are not exposed.
+}

@@ -1,0 +1,46 @@
+meta {
+  name: Report - TransactionList (created_by columns)
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base_url}}/{{realm_id}}/reports/TransactionList?columns=tx_date,txn_type,create_by,last_mod_by,doc_num&start_date=2026-05-31&end_date=2026-12-31
+  body: none
+  auth: bearer
+}
+
+params:query {
+  columns: tx_date,txn_type,create_by,last_mod_by,doc_num
+  start_date: 2026-05-31
+  end_date: 2026-12-31
+}
+
+headers {
+  Accept: application/json
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  Exact same report + columns syncCreatedBy() calls in
+  internal/datasource/quickbooks/sync.go (syncCreatedBy, ~line 1797) to
+  backfill qbo_created_by. Use this to check, at the source, whether QBO
+  is actually returning a non-empty create_by for a given Bill/BillPayment
+  — before assuming Foundry's parsing/matching is the bug.
+  
+  Response is a columnar report (Columns/Rows), not entity JSON. Each row's
+  ColData has entries in Columns order; the txn_type column's `id` field is
+  the entity's QBO Id (used to build the qbo-{type}-{id} external_id match).
+  
+  If create_by comes back empty/missing for a row here, that's a QBO-side
+  gap (nothing Foundry can fix by re-syncing) — not a Foundry bug. If it
+  comes back populated here but Foundry's qbo_created_by is still empty
+  after a sync, that points at the prefix-mapping / UpdateTransactionCreatedBy
+  matching logic instead.
+  
+  Narrow start_date/end_date to bracket the specific transaction you're
+  checking — the report can be large over the full since_date window.
+}

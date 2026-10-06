@@ -12,12 +12,12 @@ get {
 
 docs {
   Liveness check for the fraud detection ML service.
-
+  
   Response:
   - status: "ok"
   - db_connected: true/false (whether the service can talk to foundry Postgres)
   - company_models_loaded: number of company models currently in memory
-
+  
   Models are in-memory only in v1 — they get wiped on restart and have to be
   retrained via POST /train/{company_id}. The retrain cron handles this in
   production; for local dev, train manually after starting the service.

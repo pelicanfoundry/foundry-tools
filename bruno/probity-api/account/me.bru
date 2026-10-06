@@ -1,0 +1,45 @@
+meta {
+  name: Me
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{probity_base_url}}/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{probity_api_key}}
+}
+
+headers {
+  Accept: application/json
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
+
+docs {
+  Describe the authenticated key and its company.
+
+  Response: { key: { name, prefix, kind, scopes[] },
+              company: { id, name },
+              data_freshness: { last_synced_at } }
+
+  data_freshness.last_synced_at is the most recent successful QBO/Plaid sync
+  (null when neither has synced) — "Probity monitoring active, data current
+  as of …".
+
+  Good first request after setting `probity_api_key` — it confirms the key is valid
+  and shows which scopes it carries. 401 on a missing/unknown/revoked/expired
+  key.
+
+  The key value starts with `probity_` (e.g. `probity_<prefix>_<secret>`).
+  Keys minted before the 2026-10-05 rebrand used `foundry_<prefix>_<secret>`
+  and still authenticate. Create keys in the app under Settings → API Keys;
+  copy the one-time value into the `probity_api_key` secret.
+}

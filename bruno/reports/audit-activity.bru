@@ -33,13 +33,20 @@ docs {
   Columns typically include: Date, UserName, EventType, EntityType,
   EntityId, EntityName.
   
-  This is the primary way to get user identity on transactions/vendors,
-  since MetaData.CreatedByRef is not returned in practice by the query API.
-  
   Use this to investigate the SELF_APPROVAL_LOOP graph detection —
   match UserName/email against employees table to find terminated users
   still active in QBO.
-  
-  NOTE: Requires com.intuit.quickbooks.accounting scope. Available on
-  all QBO plans but may require admin-level QBO access to view.
+
+  CONFIRMED 2026-07-09 (sandbox realm 9341456594594180): this report
+  returns "Permission Denied Error" (code 5020, element ReportName) even
+  with a valid access_token carrying com.intuit.quickbooks.accounting
+  scope — AuditActivity is gated to QBO Company Admins specifically, not
+  just accounting-scope API access. This is NOT what Foundry's sync uses
+  and should not be treated as "the primary way" to get user identity —
+  syncCreatedBy (internal/datasource/quickbooks/sync.go) deliberately
+  uses the TransactionList report's create_by/last_mod_by columns
+  instead, which work under normal accounting-scope access without
+  requiring the connecting QBO user to be a Company Admin. See
+  reports/transaction-list-created-by.bru for the report Foundry
+  actually relies on.
 }

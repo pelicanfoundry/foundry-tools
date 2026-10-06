@@ -1,0 +1,36 @@
+meta {
+  name: Get Alert
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{probity_base_url}}/alerts/:alert_id
+  body: none
+  auth: bearer
+}
+
+params:path {
+  alert_id: 1
+}
+
+auth:bearer {
+  token: {{probity_api_key}}
+}
+
+headers {
+  Accept: application/json
+}
+
+settings {
+  encodeUrl: false
+  timeout: 0
+}
+
+docs {
+  Get one alert by id. Requires `alerts:read`.
+
+  Returns the Alert object directly (no envelope). 404 for an unknown id OR
+  an alert belonging to another company — deliberately indistinguishable, so
+  the endpoint can't be used to probe other tenants.
+}
